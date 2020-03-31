@@ -1,0 +1,50 @@
+import { createWebhookModule } from 'sipgateio';
+import socketIo from 'socket.io';
+
+(async (): Promise<void> => {
+	const port = Number(process.env.PORT) || 8080;
+	const serverAddress = process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS || '';
+
+	const webhookModule = createWebhookModule();
+	webhookModule
+		.createServer({
+			port,
+			serverAddress,
+		})
+		.then(webhookServer => {
+			console.log(`Server running at ${serverAddress}`);
+
+			const websocketServer = socketIo(webhookServer.getHttpServer(), {
+				serveClient: false,
+				origins: '*:*',
+			});
+
+			webhookServer.onNewCall(newCallEvent => {
+				const maskedNumber = maskNumber(newCallEvent.from);
+				console.log('incoming_call', maskedNumber);
+				websocketServer.emit('incoming_call', maskedNumber);
+			});
+
+			webhookServer.onHangUp(hangupEvent => {
+				const maskedNumber = maskNumber(hangupEvent.from);
+				console.log('hangup_call', maskedNumber);
+				websocketServer.emit('hangup_call', maskedNumber);
+			});
+
+			webhookServer.onAnswer(answerEvent => {
+				const maskedNumber = maskNumber(answerEvent.from);
+				console.log('answer_call', maskedNumber);
+				websocketServer.emit('answer_call', maskedNumber);
+			});
+
+			websocketServer.on('connection', () => {
+				console.log('A new user connected to the Websocket...');
+			});
+			websocketServer.on('disconnect', () => {
+				console.log('A user disconnected to the Websocket...');
+			});
+		});
+})();
+
+const maskNumber = (phoneNumber: string): string =>
+	`${phoneNumber.slice(0, phoneNumber.length - 3)}XXX`;
