@@ -2,7 +2,9 @@
 	"name": "webhook-demo",
 	"version": "0.0.1",
 	"description": "A demonstration of sipgate.io's webhook feature",
-	"scripts": {},
+	"scripts": {
+		"start": "ts-node src/index.ts"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/sipgate-io/webhook-demo.git"
