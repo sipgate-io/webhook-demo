@@ -20,19 +20,19 @@ import socketIo from 'socket.io';
 			});
 
 			webhookServer.onNewCall(newCallEvent => {
-				const maskedNumber = maskNumber(newCallEvent.from);
+				const maskedNumber = normalizeNumber(newCallEvent.from);
 				console.log('incoming_call', maskedNumber);
 				websocketServer.emit('incoming_call', maskedNumber);
 			});
 
 			webhookServer.onHangUp(hangupEvent => {
-				const maskedNumber = maskNumber(hangupEvent.from);
+				const maskedNumber = normalizeNumber(hangupEvent.from);
 				console.log('hangup_call', maskedNumber);
 				websocketServer.emit('hangup_call', maskedNumber);
 			});
 
 			webhookServer.onAnswer(answerEvent => {
-				const maskedNumber = maskNumber(answerEvent.from);
+				const maskedNumber = normalizeNumber(answerEvent.from);
 				console.log('answer_call', maskedNumber);
 				websocketServer.emit('answer_call', maskedNumber);
 			});
@@ -46,5 +46,5 @@ import socketIo from 'socket.io';
 		});
 })();
 
-const maskNumber = (phoneNumber: string): string =>
-	`${phoneNumber.slice(0, phoneNumber.length - 3)}XXX`;
+const normalizeNumber = (phoneNumber: string): string =>
+	`+${phoneNumber.slice(0, phoneNumber.length - 3)}XXX`;
