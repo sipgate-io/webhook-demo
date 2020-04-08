@@ -46,5 +46,10 @@ import socketIo from 'socket.io';
 		});
 })();
 
-const normalizeNumber = (phoneNumber: string): string =>
-	`+${phoneNumber.slice(0, phoneNumber.length - 3)}XXX`;
+const normalizeNumber = (phoneNumber: string): string => {
+	if (phoneNumber === 'anonymous') {
+		return phoneNumber;
+	}
+
+	return `+${phoneNumber.slice(0, phoneNumber.length - 3)}XXX`;
+};
