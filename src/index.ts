@@ -29,6 +29,9 @@ import socketIo from 'socket.io';
 			});
 
 			webhookServer.onHangUp(hangupEvent => {
+				if (hangupEvent.cause === 'forwarded') {
+					return;
+				}
 				const maskedNumber = normalizeNumber(hangupEvent.from);
 				console.log('hangup_call', maskedNumber);
 				websocketServer.emit('hangup_call', maskedNumber);
