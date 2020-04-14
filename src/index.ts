@@ -20,6 +20,9 @@ import socketIo from 'socket.io';
 			});
 
 			webhookServer.onNewCall(newCallEvent => {
+				if (newCallEvent['user[]'].includes('voicemail')) {
+					return
+				}
 				const maskedNumber = normalizeNumber(newCallEvent.from);
 				console.log('incoming_call', maskedNumber);
 				websocketServer.emit('incoming_call', maskedNumber);
