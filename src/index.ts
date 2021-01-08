@@ -20,7 +20,7 @@ import socketIo from 'socket.io';
 			});
 
 			webhookServer.onNewCall(newCallEvent => {
-				if (newCallEvent['user[]'].includes('voicemail')) {
+				if (newCallEvent.users.includes('voicemail')) {
 					return;
 				}
 				const maskedNumber = normalizeNumber(newCallEvent.from);
