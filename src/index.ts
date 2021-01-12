@@ -60,5 +60,5 @@ const normalizeNumber = (phoneNumber: string): string => {
 		return phoneNumber;
 	}
 
-	return `+${phoneNumber.slice(0, phoneNumber.length - 3)}XXX`;
+	return `${phoneNumber.slice(0, phoneNumber.length - 3)}XXX`;
 };
