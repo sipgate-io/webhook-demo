@@ -3,7 +3,9 @@
 	"version": "0.0.1",
 	"description": "A demonstration of sipgate.io's webhook feature",
 	"scripts": {
-		"start": "ts-node src/index.ts"
+		"start": "ts-node src/index.ts",
+		"build": "tsc --build",
+		"start:dist": "node dist/index.js"
 	},
 	"repository": {
 		"type": "git",
