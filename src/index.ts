@@ -1,10 +1,12 @@
 import { createWebhookModule } from 'sipgateio';
 import socketIo from 'socket.io';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 (async (): Promise<void> => {
 	const port = Number(process.env.PORT) || 8080;
-	const serverAddress = process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS || '';
-
+	const serverAddress = process.env.WEBHOOK_URL || '';
 	const webhookModule = createWebhookModule();
 	webhookModule
 		.createServer({

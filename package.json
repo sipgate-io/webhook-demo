@@ -19,6 +19,7 @@
 	"homepage": "https://github.com/sipgate-io/webhook-demo#readme",
 	"dependencies": {
 		"@types/socket.io": "^2.1.4",
+		"dotenv": "^16.0.2",
 		"sipgateio": "^2.1.4",
 		"socket.io": "^2.3.0",
 		"ts-node": "^8.6.2",
