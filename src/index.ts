@@ -1,5 +1,5 @@
 import { createWebhookModule } from 'sipgateio';
-import socketIo from 'socket.io';
+import { Server as socketIo } from 'socket.io';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -16,9 +16,11 @@ dotenv.config();
 		.then(webhookServer => {
 			console.log(`Server running at ${serverAddress}`);
 
-			const websocketServer = socketIo(webhookServer.getHttpServer(), {
+			const websocketServer = new socketIo(webhookServer.getHttpServer(), {
 				serveClient: false,
-				origins: '*:*',
+				cors: {
+					origin: '*',
+				},
 			});
 
 			webhookServer.onNewCall(newCallEvent => {
