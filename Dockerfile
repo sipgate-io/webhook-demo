@@ -1,8 +1,8 @@
-FROM node:17.4.0-slim
+FROM node:26-slim
 
 WORKDIR /app
 COPY package.json package-lock.json tsconfig.json ./
-RUN npm ci --production
+RUN npm ci --omit=dev
 
 COPY src/ src/
 RUN npm run build
